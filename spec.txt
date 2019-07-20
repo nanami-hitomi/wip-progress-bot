@@ -1,0 +1,91 @@
+general-notes:
+    Manga and Chapter objects are not backed by data (making an edit to them does not do anything)
+    The general style of this is completely procedural
+    Classes will be made for Manga and Chapter along the lines of the sql tables in tables.sql
+
+frontend:
+    p!progress <ID|Nickname> [Chapter Number]:
+        Fetches progress for a manga's chapter, either for one specified or the latest if one isn't specified
+        Returns formatted progress for a manga's chapter.
+    p!manga <ID> <Nickname>:
+        creates a manga with the specified ID and nickname
+        Returns a status of success/failure
+    p!chapter <ID|Nickname> <Chapter Number>:
+        Creates a chapter for the specified manga with all of the current staff who are working on it
+        returns success/failure status
+    p!edit {Manga-Staff|Chapter-Staff|Manga-Information|Chapter-Status} (other params explained for each one):
+        Edits some status from the manga
+        types:
+            Manga-Staff <ID|Nickname> <Role> <Name>:
+                Changes staff members assigned to a manga
+            Chapter-Staff <ID|Nickname> <Chapter Number> <Role> <Name>:
+                Changes staff members assigned to a chapter of a manga
+            Manga-Information <ID|Nickname> {Nickname|Full-Name|Abandoned-Status} <ValueChangeTo>:
+                Changes information about the manga
+            Chapter-Status <ID|Nickname> <ChapterNumber> <StatusType> <NewStatus>:
+                Changes the status of part of a chapter
+        All types return a status of success/failure
+                
+    p!estimate <ID|Nickname> [Chapter Number]:
+        Uses estimate function to estimate time until completion for a manga chapter
+        if no chapter is specified it uses the latest chapter
+        Returns unformatted estimated time of completion.
+
+    p!help <Command>?:
+        Returns the commands possible for the bot, or the syntax for a specific command.
+        This is automatically called on improper formatting.
+
+#frontend advanced commands - not necessarily implemented straightaway
+    p!group <Commands>:
+        Executes a group of commands all at once
+        returns command results
+    p!manga-advance <ID> <Nickname> <Data>:
+        Creates a manga using more data in a colon and space seperated format of Key:Value Key2:Value2
+        returns success/failure status
+    p!edit-advance {Manga|Chapter} <ID|Nickname> <Chapter Number>? <Data>"
+        Edits either a manga or chapter using colon space seperated format like the above creation menu
+        returns success/failure status
+
+middle:
+#utilities
+    fancy_arg_parse(Args):
+        Parses arguments into an array,
+        turns all int/bool into the python equivalent
+        turns any manga nicknames into the respective ID
+        returns the array of parsed arguments
+    estimate_time(Manga):
+        Estimates the release time for a Chapter
+
+#getters for middle:
+    get_manga_id_from_nickname(MangaNickname):
+        Returns the ID for a manga with a certain nickname
+    get_manga(MangaID):
+        Gets a manga from a nickname or ID
+        returns a manga object
+    get_chapter_or_latest(MangaID,ChapterNumber?):
+        gets a chapter object from a nickname/id and chapter number
+        or the latest one if no chapter # is specified
+    get_progress(ChapterObject):
+        Gets which components of a chapter have been completed or not completed in a slightly formatted string format
+
+#edit/setters for middle
+    manga_set_property(MangaID,PropertyName,NewValue):
+        Changes a property for a manga
+    chapter_set_property(MangaID,ChapterNumber,PropertyName,NewValue):
+        changes property for a chapter
+        
+db:
+    get_manga(MangaID):
+        Gets information for a manga from an id or nickname
+        returns a manga object
+
+    get_chapter(Manga,ChapterNumber):
+        Gets the chapter for a manga and a specified chapter number
+        returns a chapter object
+
+    set_manga(MangaID,FieldName,NewValue):
+        Sets/edits a property of a manga
+        returns nothing
+    set_chapter(MangaID,ChapterNumber,FieldName,NewValue):
+        sets/edits a property of a chapter
+        returns nothing

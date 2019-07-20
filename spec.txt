@@ -2,6 +2,7 @@ general-notes:
     Manga and Chapter objects are not backed by data (making an edit to them does not do anything)
     The general style of this is completely procedural
     Classes will be made for Manga and Chapter along the lines of the sql tables in tables.sql
+    any capitalized variables in the spec for middle refers to an object of that type
 
 frontend:
     p!progress <ID|Nickname> [Chapter Number]:
@@ -48,44 +49,47 @@ frontend:
 
 middle:
 #utilities
-    fancy_arg_parse(Args):
+    fancy_arg_parse(args):
         Parses arguments into an array,
         turns all int/bool into the python equivalent
         turns any manga nicknames into the respective ID
         returns the array of parsed arguments
-    estimate_time(Manga):
+    estimate_time(Chapter):
         Estimates the release time for a Chapter
 
 #getters for middle:
-    get_manga_id_from_nickname(MangaNickname):
+    get_manga_id_from_nickname(manga_nickname):
         Returns the ID for a manga with a certain nickname
-    get_manga(MangaID):
+    get_manga(manga_id):
         Gets a manga from a nickname or ID
         returns a manga object
-    get_chapter_or_latest(MangaID,ChapterNumber?):
+    get_chapter_or_latest(manga_id,chapter_number?):
         gets a chapter object from a nickname/id and chapter number
         or the latest one if no chapter # is specified
-    get_progress(ChapterObject):
+    get_progress(Chapter):
         Gets which components of a chapter have been completed or not completed in a slightly formatted string format
+        returns: Array of progress strings
 
 #edit/setters for middle
-    manga_set_property(MangaID,PropertyName,NewValue):
+    manga_set_property(Manga,property_name,new_value):
         Changes a property for a manga
-    chapter_set_property(MangaID,ChapterNumber,PropertyName,NewValue):
+    chapter_set_property(Chapter,property_name,new_value):
         changes property for a chapter
         
 db:
-    get_manga(MangaID):
+    get_manga_id(nickname)
+
+    get_manga(manga_id):
         Gets information for a manga from an id or nickname
         returns a manga object
 
-    get_chapter(Manga,ChapterNumber):
+    get_chapter(manga_id,chapter_number):
         Gets the chapter for a manga and a specified chapter number
         returns a chapter object
 
-    set_manga(MangaID,FieldName,NewValue):
+    set_manga(manga_id,field_name,new_value):
         Sets/edits a property of a manga
         returns nothing
-    set_chapter(MangaID,ChapterNumber,FieldName,NewValue):
+    set_chapter(manga_id,chapter_number,field_name,new_value):
         sets/edits a property of a chapter
         returns nothing

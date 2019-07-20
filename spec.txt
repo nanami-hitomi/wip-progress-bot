@@ -77,7 +77,8 @@ middle:
         changes property for a chapter
         
 db:
-    get_manga_id(nickname)
+    get_manga_id(nickname):
+        Gets the id for the manga with specified nickname.
 
     get_manga(manga_id):
         Gets information for a manga from an id or nickname

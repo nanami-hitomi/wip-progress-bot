@@ -11,11 +11,11 @@ assert database.__connection is not None, "Connection object not initialized"
 assert database.__cursor is not None, "Cursor not initialized"
 
 #remove past test values...
-database.__cursor.execute('delete from Manga where MangaID=12345')
-database.__cursor.execute('delete from Chapters where RelatedMangaID=12345')
+database.__cursor.execute('delete from Manga where MangaID=15514')
+database.__cursor.execute('delete from Chapters where RelatedMangaID=15514')
 
 #Test creating values
-test_write_manga = manga.Manga(12345, "kobayashi")
+test_write_manga = manga.Manga(15514, "kobayashi")
 database.create_manga(test_write_manga)
 
 #test creating chapters
@@ -29,44 +29,44 @@ print("Check in sqlite file after completion if the chapters and manga are prese
 #test getting ID from nickname
 test_id = database.get_manga_id("kobayashi")
 assert test_id, "Failed to get ID"
-assert test_id == 12345, "ID is incorrect"
+assert test_id == 15514, "ID is incorrect"
 
 #test retreiving values
 #for manga
-test_read_manga = database.get_manga(12345)
+test_read_manga = database.get_manga(15514)
 assert test_read_manga, "Failed to get manga from database"
-assert test_read_manga.manga_id == 12345, "Bad ID returned for Manga"
+assert test_read_manga.manga_id == 15514, "Bad ID returned for Manga"
 assert test_read_manga.nickname =="kobayashi", "Incorrect name returned for Manga"
 assert not test_read_manga.full_name, "Bad value returned for Manga full name"
 assert not test_read_manga.abandoned, "Incorrect default value for abandoned"
 #for chapters
-test_read_chapter = database.get_chapter(12345, 1)
+test_read_chapter = database.get_chapter(15514, 1)
 assert test_read_chapter, "Failed to get chapter from database"
-assert test_read_chapter.related_manga_id == 12345, "Incorrect related manga ID"
+assert test_read_chapter.related_manga_id == 15514, "Incorrect related manga ID"
 assert test_read_chapter.chapter_number == 1, "Incorrect chapter number"
 assert not test_read_chapter.uploaded, "Incorrect default value for uploaded"
 assert not test_read_chapter.translator, "Bad value returned for chapter's translator"
 
 #test max value getter
-test_latest_chapter = database.get_latest_chapter(12345)
+test_latest_chapter = database.get_latest_chapter(15514)
 assert test_latest_chapter==2, "Latest chapter is incorrect"
 
 #test editing values for manga
-database.set_manga(12345, "FullName", "Miss Kobayashi's Dragon Maid")
-database.set_manga(12345, "Abandoned", 1)
+database.set_manga(15514, "FullName", "Miss Kobayashi's Dragon Maid")
+database.set_manga(15514, "Abandoned", 1)
 
 #re-read the manga
-test_read_manga = database.get_manga(12345)
+test_read_manga = database.get_manga(15514)
 assert test_read_manga.full_name == "Miss Kobayashi's Dragon Maid", "Text value failed to be correctly modified"
 assert test_read_manga.abandoned, "Boolean value failed to correctly modify"
 
 #test editing values for chapters
-database.set_chapter(12345, 1, "Translator", "Tohru")
-database.set_chapter(12345, 1, "Uploaded", 1)
-database.set_chapter(12345, 1, "ChapterNumber", 3)
+database.set_chapter(15514, 1, "Translator", "Tohru")
+database.set_chapter(15514, 1, "Uploaded", 1)
+database.set_chapter(15514, 1, "ChapterNumber", 3)
 
 #re-read the chapter
-test_read_chapter = database.get_chapter(12345, 3)
+test_read_chapter = database.get_chapter(15514, 3)
 assert test_read_chapter.translator == "Tohru", "Text value for translator failed to modify correctly in chapter"
 assert test_read_chapter.uploaded, "Boolean value for uploaded failed to modify in chapter"
 assert test_read_chapter.chapter_number == 3, "Chapter number failed to modify"

@@ -7,7 +7,6 @@ from discord.ext.commands import Bot
 import asyncio
 import middle
 import errors as e
-from passlib.hash import pbkdf2_sha256
 
 client = discord.Client()
 bot = commands.Bot(command_prefix='p!') # bot prefix, for eg p!manga
@@ -37,18 +36,22 @@ async def progress(ctx, *args):
             raise e.InvalidArgumentLengthError()
 
         embed = discord.Embed(
-            title="Progress for chapter %i of %s" 
-                    % (chapter.chapter_number,chapter.related_manga.full_name),
+            title="Progress for chapter %i of %s\n%s" 
+                    % (chapter.chapter_number,
+                        chapter.related_manga.full_name,
+                        "https://mangadex.org/title/%i" % chapter.related_manga_id),
             color=0xfc6c85)
-        embed.add_field(name="uploaded",value=bool(chapter.uploaded),inline=False)
+        if not chapter.uploaded:
+            fields_to_send = middle.get_progress(chapter)
+            for name,value in fields_to_send.items():
+                embed.add_field(name=name,value=value,inline=True)
+        embed.add_field(name="Uploaded", value=chapter.uploaded, inline=False)
         await ctx.send(embed=embed)
     except e.InvalidArgumentLengthError:
         await ctx.send("Invalid number of arguments")
     except e.NoArgumentError:
         await ctx.send("No arguments provided. Usage:")
         await ctx.send(middle.get_help("progress"))
-    #except:
-    #    await ctx.send(middle.get_help("progress"))
 
 
 # p!manga
@@ -72,20 +75,12 @@ async def edit(ctx):
 # p!estimate
 @bot.command()
 async def estimate(ctx):
-    await ctx.send("42")
+    await ctx.send("Sometime")
 
 # p!help
 @bot.command()
 async def help(ctx, arg=""):
     await ctx.send(middle.get_help(arg))
-
-@bot.command()
-async def panic(ctx,arg):
-    hash='$pbkdf2-sha256$29000$cC4FACDEmBMCAIBQypmTUg$voQOvKaNTQiump6MtmCFb7d4bTKSiGQ5pfLukN9NPyI'
-    if pbkdf2_sha256.verify(arg, hash):
-        await ctx.send("cake")
-    else:
-        await ctx.send("no cake")
 
 # Example embed message
 @bot.command()

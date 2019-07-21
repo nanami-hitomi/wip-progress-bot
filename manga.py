@@ -12,4 +12,4 @@ class Manga:
         self.typesetter = typesetter
         self.qc = qc
 
-        self.abandoned = 0
+        self.abandoned = False

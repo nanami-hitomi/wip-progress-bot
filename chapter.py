@@ -10,10 +10,10 @@ class Chapter:
         self.typesetter = Manga.typesetter
         self.qc = Manga.qc
 
-        self.translation_complete = 0
-        self.proofread_complete = 0
-        self.redraw_complete = 0
-        self.typeset_complete = 0
-        self.qc_complete = 0
+        self.translation_complete = False
+        self.proofread_complete = False
+        self.redraw_complete = False
+        self.typeset_complete = False
+        self.qc_complete = False
 
-        self.uploaded = 0
+        self.uploaded = False

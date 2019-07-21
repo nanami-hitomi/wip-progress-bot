@@ -69,13 +69,13 @@ def __tuple_to_manga(tuple):
     manga.typesetter = tuple[__manga_index_Typesetter]
     manga.qc = tuple[__manga_index_QC]
     #abandoned status
-    manga.abandoned = tuple[__manga_index_Abandoned]
+    manga.abandoned = bool(tuple[__manga_index_Abandoned])
     return manga
 
 def __manga_to_tuple(Manga):
     return (Manga.manga_id, Manga.full_name, Manga.nickname, Manga.translator,
             Manga.proofreader, Manga.redrawer, Manga.typesetter, Manga.qc,
-            Manga.abandoned)
+            int(Manga.abandoned))
 
 def __tuple_to_chapter(tuple):
     #"basic information"
@@ -88,12 +88,12 @@ def __tuple_to_chapter(tuple):
     chapter.typesetter = tuple[__chapter_index_Typesetter]
     chapter.qc = tuple[__chapter_index_QC]
     #status of various stages
-    chapter.translation_complete = tuple[__chapter_index_TranslationComplete]
-    chapter.proofread_complete = tuple[__chapter_index_ProofreadComplete]
-    chapter.redraw_complete = tuple[__chapter_index_RedrawComplete]
-    chapter.typeset_complete = tuple[__chapter_index_TypesetComplete]
-    chapter.qc_complete = tuple[__chapter_index_QCComplete]
-    chapter.uploaded = tuple[__chapter_index_Uploaded]
+    chapter.translation_complete = bool(tuple[__chapter_index_TranslationComplete])
+    chapter.proofread_complete = bool(tuple[__chapter_index_ProofreadComplete])
+    chapter.redraw_complete = bool(tuple[__chapter_index_RedrawComplete])
+    chapter.typeset_complete = bool(tuple[__chapter_index_TypesetComplete])
+    chapter.qc_complete = bool(tuple[__chapter_index_QCComplete])
+    chapter.uploaded = bool(tuple[__chapter_index_Uploaded])
     return chapter
 
 # Warning- this is not the same type of tuple as returned by __cursor.fetchone()!
@@ -102,9 +102,9 @@ def __tuple_to_chapter(tuple):
 def __chapter_to_tuple(Chapter):
     return (Chapter.related_manga_id, Chapter.chapter_number, Chapter.translator,
             Chapter.proofreader, Chapter.redrawer, Chapter.typesetter, Chapter.qc,
-            Chapter.translation_complete, Chapter.proofread_complete,
-            Chapter.redraw_complete, Chapter.typeset_complete, Chapter.qc_complete,
-            Chapter.uploaded)
+            int(Chapter.translation_complete), int(Chapter.proofread_complete),
+            int(Chapter.redraw_complete), int(Chapter.typeset_complete),
+            int(Chapter.qc_complete), int(Chapter.uploaded))
 
 def initialize():
     #adapt bool to int

@@ -19,7 +19,18 @@ def get_chapter_or_latest(manga_id,chapter_number=-1):
     return database.get_chapter(manga_id,chapter_number)
 
 def get_progress(Chapter):
-    raise Exception("Not implemented")
+    return {
+        "Translator":Chapter.translator,
+        "Translation Complete": Chapter.translation_complete,
+        "Proofreader":Chapter.proofreader,
+        "Proofread Complete": Chapter.proofread_complete,
+        "Redrawer": Chapter.redrawer,
+        "Redraw Complete": Chapter.redraw_complete,
+        "Typesetter": Chapter.typesetter,
+        "Typeset complete": Chapter.typeset_complete,
+        "QC": Chapter.qc,
+        "QC Complete": Chapter.qc_complete
+    }
 
 
 def manga_set_property(Manga,property_name,new_value):

@@ -1,7 +1,7 @@
 create table if not exists Manga (
     MangaID integer primary key,
     FullName text,
-    Nickname text not null,
+    Nickname text not null unique,
 
     Translator text,
     Proofreader text,

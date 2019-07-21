@@ -1,7 +1,7 @@
 create table if not exists Manga (
-    MangaID int primary key,
+    MangaID integer primary key,
     FullName text,
-    Nickname text,
+    Nickname text not null,
 
     Translator text,
     Proofreader text,
@@ -9,12 +9,12 @@ create table if not exists Manga (
     Typesetter text,
     QC text,
 
-    Abandoned boolean default 0
-)
+    Abandoned integer default 0
+);
 
 create table if not exists Chapters (
-    ID int primary key,
-    RelatedManga int not null,
+    ID integer primary key,
+    RelatedMangaID integer not null,
 
     ChapterNumber int not null,
 
@@ -24,10 +24,10 @@ create table if not exists Chapters (
     Typesetter text,
     QC text,
 
-    TranslationComplete boolean default 0,
-    ProofreadComplete boolean default 0,
-    RedrawComplete boolean default 0,
-    TypesetComplete boolean default 0,
-    QCComplete boolean default 0,
-    Uploaded boolean default 0
-)
+    TranslationComplete integer default 0,
+    ProofreadComplete integer default 0,
+    RedrawComplete integer default 0,
+    TypesetComplete integer default 0,
+    QCComplete integer default 0,
+    Uploaded integer default 0
+);

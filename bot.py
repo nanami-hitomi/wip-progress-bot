@@ -7,6 +7,8 @@ from discord.ext.commands import Bot
 import asyncio
 import middle
 import errors as e
+import manga as mn
+import chapter as ch
 
 client = discord.Client()
 bot = commands.Bot(command_prefix='p!') # bot prefix, for eg p!manga
@@ -35,10 +37,12 @@ async def progress(ctx, *args):
         else:
             raise e.InvalidArgumentLengthError()
 
+
+
         embed = discord.Embed(
             title="Progress for chapter %i of %s\n%s" 
                     % (chapter.chapter_number,
-                        chapter.related_manga.full_name,
+                        chapter.related_manga.full_name or chapter.related_manga.nickname,
                         "https://mangadex.org/title/%i" % chapter.related_manga_id),
             color=0xfc6c85)
         if not chapter.uploaded:
@@ -59,7 +63,23 @@ async def progress(ctx, *args):
 # p!manga
 @bot.command()
 async def manga(ctx, *args):
-    await ctx.send("Nothing to see here yet")
+    try:
+        if len(args)==0:
+            raise e.NoArgumentError
+        elif len(args)==1:
+            await ctx.send("Need to provide both ID and manga")
+        elif len(args)==2:
+            manga = mn.Manga(int(args[0]), args[1])
+            await ctx.send(middle.new_manga(manga))
+        else:
+            raise e.InvalidArgumentLengthError()
+    except e.NoArgumentError:
+        await ctx.send("No arguments provided. Usage:")
+        await ctx.send(middle.get_help("progress"))
+    except e.InvalidArgumentLengthError:
+        await ctx.send("Invalid number of arguments")
+    except ValueError:
+        await ctx.send("Manga ID must be a number")
 
 
 #p!chapter

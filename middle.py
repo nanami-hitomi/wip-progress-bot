@@ -39,6 +39,27 @@ def manga_set_property(Manga,property_name,new_value):
 def chapter_set_property(Chapter,property_name,new_value):
     raise Exception("Not implemented")
 
+def new_manga(Manga):
+    try:
+        database.create_manga(Manga)
+        return "Created successfully"
+    except:
+        return "Failed to create: Does this manga already exist?"
+
+def new_chapter(Manga,chapter_number):
+    try:
+        database.create_chapter(Manga,chapter_number)
+        return "Created Successfully"
+    except:
+        return "Failed to create: Does this chapter already exist?"
+
+def new_chapter_o(Chapter):
+    try:
+        database.create_chapter_o(Chapter)
+        return "Created successfully"
+    except: 
+        return "Failed to create: Does this chapter already exist?"
+
 def get_help(command=""):
     if command=="":
         return open('resources/help.txt').read()

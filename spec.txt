@@ -70,6 +70,13 @@ middle:
         Changes a property for a manga
     chapter_set_property(Chapter,property_name,new_value):
         changes property for a chapter
+
+    new_manga(Manga):
+        Creates a manga, returns success/failure
+    new_chapter(Manga,chapter_numner):
+        creates a chapter, returns success/failure
+    new_chapter_o(Chapter):
+        creates a chapter, returns success/failure
         
 db:
     initialize():

@@ -53,8 +53,6 @@ middle:
         Estimates the release time for a Chapter
 
 #getters for middle:
-    __get_manga_id_from_nickname(manga_nickname):
-        Returns the ID for a manga with a certain nickname
     get_manga(manga_id):
         Gets a manga from a nickname or ID
         returns a manga object

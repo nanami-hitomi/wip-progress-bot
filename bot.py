@@ -74,6 +74,7 @@ async def edit(ctx):
 async def estimate(ctx):
     await ctx.send("42")
 
+# p!help
 @bot.command()
 async def help(ctx, arg=""):
     await ctx.send(middle.get_help(arg))

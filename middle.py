@@ -2,11 +2,6 @@ import database
 
 def estimate_time(Chapter):
     raise Exception("Not implemented")
-        
-
-
-def __get_manga_id_from_nickname(manga_nickname):
-    return database.get_manga_id(manga_nickname)
 
 def __guarantee_manga_id(manga_id_or_nickname):
     try:

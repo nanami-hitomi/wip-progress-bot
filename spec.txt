@@ -77,6 +77,12 @@ middle:
         changes property for a chapter
         
 db:
+    initialize():
+        Initializes database.
+        returns nothing\
+    deinitialize():
+        Cleans up database
+        returns nothing
     get_manga_id(nickname):
         Gets the id for the manga with specified nickname.
 
@@ -93,4 +99,14 @@ db:
         returns nothing
     set_chapter(manga_id,chapter_number,field_name,new_value):
         sets/edits a property of a chapter
+        returns nothing
+
+    create_manga(Manga):
+        creates a manga in the table corresponding to the objects
+        returns nothing
+    create_chapter(Manga,chapter_number):
+        creates a chapter for the manga with the chapter number
+        returns nothing
+    create_chapter_o(Chapter):
+        Creates a chapter in the table according to the object
         returns nothing

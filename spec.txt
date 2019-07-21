@@ -94,6 +94,10 @@ db:
         Gets the chapter for a manga and a specified chapter number
         returns a chapter object
 
+    get_latest_chapter(manga_id):
+        Gets the latest chapter for a manga
+        returns the number of the latest chapter
+
     set_manga(manga_id,field_name,new_value):
         Sets/edits a property of a manga
         returns nothing

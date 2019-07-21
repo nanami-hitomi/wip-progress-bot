@@ -47,6 +47,10 @@ assert test_read_chapter.chapter_number == 1, "Incorrect chapter number"
 assert not test_read_chapter.uploaded, "Incorrect default value for uploaded"
 assert not test_read_chapter.translator, "Bad value returned for chapter's translator"
 
+#test max value getter
+test_latest_chapter = database.get_latest_chapter(12345)
+assert test_latest_chapter==2, "Latest chapter is incorrect"
+
 #test editing values for manga
 database.set_manga(12345, "FullName", "Miss Kobayashi's Dragon Maid")
 database.set_manga(12345, "Abandoned", 1)

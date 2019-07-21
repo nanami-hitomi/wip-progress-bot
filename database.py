@@ -139,7 +139,7 @@ def get_manga(manga_id):
     manga = __cursor.fetchone()
     return __tuple_to_manga(manga)
 
-def get_chapter(manga_id,chapter_number):
+def get_chapter(manga_id, chapter_number):
     __force_connection()
     __cursor.execute('select * from Chapters where RelatedMangaID=? and ChapterNumber=?',
                     (manga_id,chapter_number))
@@ -147,6 +147,11 @@ def get_chapter(manga_id,chapter_number):
     chapter = __cursor.fetchone()
     return __tuple_to_chapter(chapter)
 
+def get_latest_chapter(manga_id):
+    __force_connection()
+    __cursor.execute('select max(ChapterNumber) from Chapters Where RelatedMangaID=?',
+                    (manga_id,))
+    return __cursor.fetchone()[0]
 
 def set_manga(manga_id,field_name,new_value):
     if not field_name in ["FullName", "Nickname", "Translator", "Proofreader",

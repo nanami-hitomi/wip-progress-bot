@@ -1,2 +1,5 @@
 __pycache__/
 database.sqlite
+.vs/
+.vscode/
+*.pyc

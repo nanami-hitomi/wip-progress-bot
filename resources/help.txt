@@ -1,0 +1,33 @@
+p!progress <ID|Nickname> [Chapter Number]:
+        Fetches progress for a manga's chapter, either for one specified or the latest if one isn't specified
+        Returns formatted progress for a manga's chapter.
+
+p!manga <ID> <Nickname>:
+        creates a manga with the specified ID and nickname
+        Returns a status of success/failure
+
+p!chapter <ID|Nickname> <Chapter Number>:
+        Creates a chapter for the specified manga with all of the current staff who are working on it
+        returns success/failure status
+        
+p!edit {Manga-Staff|Chapter-Staff|Manga-Information|Chapter-Status} (other params explained for each one):
+        Edits some status from the manga
+        types:
+            Manga-Staff <ID|Nickname> <Role> <Name>:
+                Changes staff members assigned to a manga
+            Chapter-Staff <ID|Nickname> <Chapter Number> <Role> <Name>:
+                Changes staff members assigned to a chapter of a manga
+            Manga-Information <ID|Nickname> {Nickname|Full-Name|Abandoned-Status} <ValueChangeTo>:
+                Changes information about the manga
+            Chapter-Status <ID|Nickname> <ChapterNumber> <StatusType> <NewStatus>:
+                Changes the status of part of a chapter
+        All types return a status of success/failure
+                
+p!estimate <ID|Nickname> [Chapter Number]:
+        Uses estimate function to estimate time until completion for a manga chapter
+        if no chapter is specified it uses the latest chapter
+        Returns unformatted estimated time of completion.
+
+p!help <Command>?:
+        Returns the commands possible for the bot, or the syntax for a specific command.
+        This is automatically called on improper formatting.

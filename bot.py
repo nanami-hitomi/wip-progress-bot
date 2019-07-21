@@ -1,16 +1,16 @@
 # Work in Progress Bot
 
-# <--- DO NOT EDIT IMPORTS --->
+# Import discord and necessary libraries for it
 import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
 import asyncio
+from passlib.hash import pbkdf2_sha256
 
 client = discord.Client()
 bot = commands.Bot(command_prefix='p!') # bot prefix, for eg p!manga
-token = 'NjAyMzk0MTI2MTIxNjk3Mjkw.XTQNlw.B5SQRcwaoLp1pBKj-JwSwn0QJL8'  # don't publicize this obviously
 
-# <---- DO NOT EDIT --->
+# Remove default help command
 bot.remove_command('help')
 
 
@@ -19,8 +19,12 @@ bot.remove_command('help')
 async def on_ready():
     print("Successfully Booted Up!")
     print('------')
-    print("Errors: ")
-    await bot.change_presence(activity=discord.Game(name="Progress-chan | p!help")) # You may change the bot's game to what you want
+    await bot.change_presence(activity=discord.Game(name="Progress-chan | p!help"))
+
+# p!progress
+@bot.command()
+async def progress(ctx):
+    await ctx.send("sfx: Crickets")
 
 
 # p!manga
@@ -28,15 +32,15 @@ async def on_ready():
 async def manga(ctx, *args):
     list = []
     list = args # stores args of command
-         
+
     print(list) # prints to console
     await ctx.send("Nothing to see here yet")
 
 
-# p!progress
+#p!chapter
 @bot.command()
-async def progress(ctx):
-    await ctx.send("sfx: Crickets")
+async def chapter(ctx):
+    await ctx.send("ら～ららららららら")
 
 
 # p!edit 
@@ -49,6 +53,19 @@ async def edit(ctx):
 @bot.command()
 async def estimate(ctx):
     await ctx.send("42")
+
+@bot.command()
+async def help(ctx):
+    help_message = open('resources/help.txt').read()
+    await ctx.send(help_message)
+
+@bot.command()
+async def panic(ctx,arg):
+    hash='$pbkdf2-sha256$29000$cC4FACDEmBMCAIBQypmTUg$voQOvKaNTQiump6MtmCFb7d4bTKSiGQ5pfLukN9NPyI'
+    if pbkdf2_sha256.verify(arg, hash):
+        await ctx.send("cake")
+    else:
+        await ctx.send("no cake")
 
 # Example embed message
 @bot.command()
@@ -70,5 +87,3 @@ async def userinfo1(ctx, user: discord.Member = None):
         embed.set_footer(text="Progress Bot for WiP")
         await ctx.send(embed=embed)
 
-# <--- Bot Run --->
-bot.run(token)

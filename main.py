@@ -1,8 +1,11 @@
 import database
+import bot
 import atexit
 
 #setup database initialization and add de-initialization to be completed on exit
 database.initialize()
 atexit.register(database.deinitialize)
 
-#add more here
+#Start the bot
+token = open('token.txt').read()
+bot.bot.run(token)

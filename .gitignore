@@ -3,3 +3,4 @@ database.sqlite
 .vs/
 .vscode/
 *.pyc
+token.txt

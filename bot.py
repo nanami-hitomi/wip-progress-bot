@@ -52,6 +52,8 @@ async def progress(ctx, *args):
     except e.NoArgumentError:
         await ctx.send("No arguments provided. Usage:")
         await ctx.send(middle.get_help("progress"))
+    except TypeError:
+        await ctx.send("Invalid manga or chapter")
 
 
 # p!manga

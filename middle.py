@@ -22,7 +22,7 @@ def get_progress(Chapter):
     return {
         "Translator":Chapter.translator,
         "Translation Complete": Chapter.translation_complete,
-        "Proofreader":Chapter.proofreader,
+        "Proofreader": Chapter.proofreader,
         "Proofread Complete": Chapter.proofread_complete,
         "Redrawer": Chapter.redrawer,
         "Redraw Complete": Chapter.redraw_complete,

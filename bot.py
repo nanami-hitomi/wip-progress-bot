@@ -76,7 +76,7 @@ async def estimate(ctx):
 
 @bot.command()
 async def help(ctx, arg=""):
-    return middle.get_help(arg)
+    await ctx.send(middle.get_help(arg))
 
 @bot.command()
 async def panic(ctx,arg):

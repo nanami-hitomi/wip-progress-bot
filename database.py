@@ -79,7 +79,7 @@ def __manga_to_tuple(Manga):
 
 def __tuple_to_chapter(tuple):
     #"basic information"
-    related_manga = mn.Manga(tuple[__chapter_index_RelatedMangaID], None)
+    related_manga = get_manga(tuple[__chapter_index_RelatedMangaID])
     chapter = ch.Chapter(related_manga,tuple[__chapter_index_ChapterNumber])
     #people involved
     chapter.translator = tuple[__chapter_index_Translator]

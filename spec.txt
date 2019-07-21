@@ -49,16 +49,11 @@ frontend:
 
 middle:
 #utilities
-    fancy_arg_parse(args):
-        Parses arguments into an array,
-        turns all int/bool into the python equivalent
-        turns any manga nicknames into the respective ID
-        returns the array of parsed arguments
     estimate_time(Chapter):
         Estimates the release time for a Chapter
 
 #getters for middle:
-    get_manga_id_from_nickname(manga_nickname):
+    __get_manga_id_from_nickname(manga_nickname):
         Returns the ID for a manga with a certain nickname
     get_manga(manga_id):
         Gets a manga from a nickname or ID
@@ -69,6 +64,8 @@ middle:
     get_progress(Chapter):
         Gets which components of a chapter have been completed or not completed in a slightly formatted string format
         returns: Array of progress strings
+    get_help(command?):
+        gets help for a command or the default if no command is passed
 
 #edit/setters for middle
     manga_set_property(Manga,property_name,new_value):
@@ -79,7 +76,7 @@ middle:
 db:
     initialize():
         Initializes database.
-        returns nothing\
+        returns nothing
     deinitialize():
         Cleans up database
         returns nothing

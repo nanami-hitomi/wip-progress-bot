@@ -5,6 +5,8 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
 import asyncio
+import middle
+import errors as e
 from passlib.hash import pbkdf2_sha256
 
 client = discord.Client()
@@ -18,22 +20,40 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
     print("Successfully Booted Up!")
-    print('------')
     await bot.change_presence(activity=discord.Game(name="Progress-chan | p!help"))
 
 # p!progress
 @bot.command()
-async def progress(ctx):
-    await ctx.send("sfx: Crickets")
+async def progress(ctx, *args):
+    chapter = None
+    try:
+        if len(args)==0:
+            raise e.NoArgumentError
+        elif len(args)==1: #If there is no chapter provided, get latest
+            chapter = middle.get_chapter_or_latest(args[0])
+        elif len(args)==2:
+            chapter = middle.get_chapter_or_latest(args[0],args[1])
+        else:
+            raise e.InvalidArgumentLengthError()
+
+        embed = discord.Embed(
+            title="Progress for chapter %i of %s" 
+                    % (chapter.chapter_number,chapter.related_manga.full_name),
+            color=0xfc6c85)
+        embed.add_field(name="uploaded",value=bool(chapter.uploaded),inline=False)
+        await ctx.send(embed=embed)
+    except e.InvalidArgumentLengthError:
+        await ctx.send("Invalid number of arguments")
+    except e.NoArgumentError:
+        await ctx.send("No arguments provided. Usage:")
+        await ctx.send(middle.get_help("progress"))
+    #except:
+    #    await ctx.send(middle.get_help("progress"))
 
 
 # p!manga
 @bot.command()
 async def manga(ctx, *args):
-    list = []
-    list = args # stores args of command
-
-    print(list) # prints to console
     await ctx.send("Nothing to see here yet")
 
 
@@ -55,9 +75,8 @@ async def estimate(ctx):
     await ctx.send("42")
 
 @bot.command()
-async def help(ctx):
-    help_message = open('resources/help.txt').read()
-    await ctx.send(help_message)
+async def help(ctx, arg=""):
+    return middle.get_help(arg)
 
 @bot.command()
 async def panic(ctx,arg):

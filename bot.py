@@ -92,6 +92,12 @@ async def chapter(ctx, *args):
         if manga is None:
             await ctx.send("Invalid manga")
             return
+        else:
+            chapter = middle.get_chapter_or_latest(args[0],args[1])
+
+            if chapter is not None:
+                await ctx.send("Chapter already exist")
+                return
         await ctx.send(middle.new_chapter(manga,args[1]))
     else:
         await ctx.send("Too many arguments. Usage:")

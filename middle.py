@@ -6,19 +6,28 @@ def estimate_time(Chapter):
 def __guarantee_manga_id(manga_id_or_nickname):
     try:
         return int(manga_id_or_nickname)
-    except:
+    except ValueError:
         return database.get_manga_id(manga_id_or_nickname)
 
 def get_manga(manga_id):
-    return database.get_manga()
+    try:
+        manga_id = __guarantee_manga_id(manga_id)
+        return database.get_manga(manga_id)
+    except:
+        return None
 
 def get_chapter_or_latest(manga_id,chapter_number=-1):
-    manga_id = __guarantee_manga_id(manga_id)
-    if chapter_number==-1:
-        chapter_number=database.get_latest_chapter(manga_id)
-    return database.get_chapter(manga_id,chapter_number)
+    try:
+        manga_id = __guarantee_manga_id(manga_id)
+        if chapter_number==-1:
+            chapter_number=database.get_latest_chapter(manga_id)
+        return database.get_chapter(manga_id,chapter_number)
+    except:
+        return None
 
 def get_progress(Chapter):
+    if Chapter is None:
+        return {}
     return {
         "Translator":Chapter.translator,
         "Translation Complete": Chapter.translation_complete,
@@ -48,8 +57,10 @@ def new_manga(Manga):
 
 def new_chapter(Manga,chapter_number):
     try:
-        database.create_chapter(Manga,chapter_number)
+        database.create_chapter(Manga,int(chapter_number))
         return "Created Successfully"
+    except ValueError:
+        return "Chapter number needs to be of type int"
     except:
         return "Failed to create: Does this chapter already exist?"
 

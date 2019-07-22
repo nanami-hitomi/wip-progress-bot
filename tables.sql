@@ -16,7 +16,7 @@ create table if not exists Chapters (
     ID integer primary key,
     RelatedMangaID integer not null,
 
-    ChapterNumber int not null,
+    ChapterNumber int not null unique,
 
     Translator text,
     Proofreader text,

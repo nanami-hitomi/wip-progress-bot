@@ -27,79 +27,75 @@ async def on_ready():
 @bot.command()
 async def progress(ctx, *args):
     chapter = None
-    try:
-        if len(args)==0:
-            raise e.NoArgumentError
-        elif len(args)==1: #If there is no chapter provided, get latest
-            chapter = middle.get_chapter_or_latest(args[0])
-        elif len(args)==2:
-            chapter = middle.get_chapter_or_latest(args[0],args[1])
-        else:
-            raise e.InvalidArgumentLengthError()
-
-
-
-        embed = discord.Embed(
-            title="Progress for chapter %i of %s\n%s" 
-                    % (chapter.chapter_number,
-                        chapter.related_manga.full_name or chapter.related_manga.nickname,
-                        "https://mangadex.org/title/%i" % chapter.related_manga_id),
-            color=0xfc6c85)
-        if not chapter.uploaded:
-            fields_to_send = middle.get_progress(chapter)
-            for name,value in fields_to_send.items():
-                embed.add_field(name=name,value=value,inline=True)
-        embed.add_field(name="Uploaded", value=chapter.uploaded, inline=False)
-        await ctx.send(embed=embed)
-    except e.InvalidArgumentLengthError:
-        await ctx.send("Invalid number of arguments")
-    except e.NoArgumentError:
+    if len(args)==0:
         await ctx.send("No arguments provided. Usage:")
         await ctx.send(middle.get_help("progress"))
-    except TypeError:
-        await ctx.send("Invalid manga or chapter")
+        return
+    elif len(args)==1: #If there is no chapter provided, get latest
+        chapter = middle.get_chapter_or_latest(args[0])
+    elif len(args)==2:
+        chapter = middle.get_chapter_or_latest(args[0],args[1])
+    else:
+        await ctx.send("Too many arguments. Usage:")
+        await ctx.send(middle.get_help("progress"))
+        return
+
+    if chapter is None:
+        await ctx.send("Manga or chapter is invalid.")
+        return
+
+    embed = discord.Embed(
+        title="Progress for chapter %i of %s\n%s" 
+                % (chapter.chapter_number,
+                    chapter.related_manga.full_name or chapter.related_manga.nickname,
+                    "https://mangadex.org/title/%i" % chapter.related_manga_id),
+        color=0xfc6c85)
+    if not chapter.uploaded:
+        fields_to_send = middle.get_progress(chapter)
+        for name,value in fields_to_send.items():
+            embed.add_field(name=name,value=value,inline=True)
+    embed.add_field(name="Uploaded", value=chapter.uploaded, inline=False)
+    await ctx.send(embed=embed)
 
 
 # p!manga
 @bot.command()
 async def manga(ctx, *args):
-    try:
-        if len(args)==0:
-            raise e.NoArgumentError
-        elif len(args)==1:
-            await ctx.send("Need to provide both ID and manga")
-        elif len(args)==2:
+    if len(args)==0:
+        await ctx.send("No arguments. Usage:")
+        await ctx.send(middle.get_help("manga"))
+    elif len(args)==1:
+        await ctx.send("Need to provide both ID and manga")
+    elif len(args)==2:
+        try:
             manga = mn.Manga(int(args[0]), args[1])
             await ctx.send(middle.new_manga(manga))
-        else:
-            raise e.InvalidArgumentLengthError()
-    except e.NoArgumentError:
-        await ctx.send("No arguments provided. Usage:")
-        await ctx.send(middle.get_help("progress"))
-    except e.InvalidArgumentLengthError:
-        await ctx.send("Invalid number of arguments")
-    except ValueError:
-        await ctx.send("Manga ID must be a number")
+        except ValueError:
+            await ctx.send("ID needs to be a number. Usage:")
+            await ctx.send(middle.get_help("manga"))
+    else:
+        await ctx.send("Too many arguments. Usage:")
+        await ctx.send(middle.get_help("manga"))
+
 
 
 #p!chapter
 @bot.command()
 async def chapter(ctx, *args):
-    #await ctx.send("ら～ららららららら")
-    try:
-        if len(args)==0:
-            raise e.NoArgumentError
-        elif len(args)==1:
-            await ctx.send("Need to provide both ID manga/nickname and chapter")
-        elif len(args)==2:
-            await ctx.send(middle.new_chapter(args[0],args[1]))
-        else:
-            raise e.InvalidArgumentLengthError()
-    except e.NoArgumentError:
+    if len(args)==0:
         await ctx.send("No arguments provided. Usage:")
         await ctx.send(middle.get_help("chapter"))
-    except e.InvalidArgumentLengthError:
-        await ctx.send("Invalid number of arguments")
+    elif len(args)==1:
+            await ctx.send("Need to provide both manga ID/nickname and chapter")
+    elif len(args)==2:
+        manga = middle.get_manga(args[0])
+        if manga is None:
+            await ctx.send("Invalid manga")
+            return
+        await ctx.send(middle.new_chapter(manga,args[1]))
+    else:
+        await ctx.send("Too many arguments. Usage:")
+        await ctx.send(middle.get_help("chapter"))
 
 
 # p!edit 

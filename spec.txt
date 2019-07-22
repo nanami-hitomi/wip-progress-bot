@@ -3,6 +3,8 @@ general-notes:
     The general style of this is completely procedural
     Classes will be made for Manga and Chapter along the lines of the sql tables in tables.sql
     any capitalized variables in the spec for middle refers to an object of that type
+    please don't use exception-based execution flow, it hurts... yes i realize i did it first...
+
 
 frontend:
     p!progress <ID|Nickname> [Chapter Number]:

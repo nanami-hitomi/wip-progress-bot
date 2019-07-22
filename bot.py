@@ -84,8 +84,22 @@ async def manga(ctx, *args):
 
 #p!chapter
 @bot.command()
-async def chapter(ctx):
-    await ctx.send("ら～ららららららら")
+async def chapter(ctx, *args):
+    #await ctx.send("ら～ららららららら")
+    try:
+        if len(args)==0:
+            raise e.NoArgumentError
+        elif len(args)==1:
+            await ctx.send("Need to provide both ID manga/nickname and chapter")
+        elif len(args)==2:
+            await ctx.send(middle.new_chapter(args[0],args[1]))
+        else:
+            raise e.InvalidArgumentLengthError()
+    except e.NoArgumentError:
+        await ctx.send("No arguments provided. Usage:")
+        await ctx.send(middle.get_help("chapter"))
+    except e.InvalidArgumentLengthError:
+        await ctx.send("Invalid number of arguments")
 
 
 # p!edit 

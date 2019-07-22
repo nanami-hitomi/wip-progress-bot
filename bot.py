@@ -67,6 +67,9 @@ async def manga(ctx, *args):
     elif len(args)==1:
         await ctx.send("Need to provide both ID and manga")
     elif len(args)==2:
+        if args[0].isnumeric() == False or int(args[0]) < 1 or len(args[0]) > 6 or len(args[1]) > 30:
+            await ctx.send("ID must be positive up to 6 numbers and up to 30 characters for manga")
+            return
         try:
             manga = mn.Manga(int(args[0]), args[1])
             await ctx.send(middle.new_manga(manga))
@@ -88,6 +91,9 @@ async def chapter(ctx, *args):
     elif len(args)==1:
             await ctx.send("Need to provide both manga ID/nickname and chapter")
     elif len(args)==2:
+        if len(args[0]) > 30 or args[1].isnumeric() == False or int(args[1]) < 1 or len(args[1]) > 4:
+            await ctx.send("Chapter must be positive up to 4 numbers and up to 30 characters for ID/nickname")
+            return
         manga = middle.get_manga(args[0])
         if manga is None:
             await ctx.send("Invalid manga")

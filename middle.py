@@ -5,9 +5,9 @@ def estimate_time(Chapter):
 
 def __guarantee_manga_id(manga_id_or_nickname):
     try:
-        return int(manga_id_or_nickname)
-    except ValueError:
         return database.get_manga_id(manga_id_or_nickname)
+    except:
+        return int(manga_id_or_nickname)
 
 def get_manga(manga_id):
     try:
